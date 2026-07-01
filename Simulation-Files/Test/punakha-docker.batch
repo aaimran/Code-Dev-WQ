@@ -1,0 +1,92 @@
+#!/bin/bash
+#SBATCH --job-name=wq-docker-test
+#SBATCH --output=/work/aimran/logs/wq_docker_test_%j.log
+#SBATCH --error=/work/aimran/logs/wq_docker_test_%j.err
+#SBATCH --partition=dgx
+#SBATCH --gpus=0
+#SBATCH --cpus-per-task=40
+#SBATCH --mem=100GB
+#SBATCH --time=02:00:00
+#SBATCH --nodes=1
+
+echo "========================================"
+echo "WaveQlab3D Docker Test - test-1upx_100m"
+echo "========================================"
+echo "Job ID: $SLURM_JOB_ID"
+echo "Node: $(hostname)"
+echo "Working directory: $(pwd)"
+echo ""
+
+# Create logs directory if it doesn't exist
+mkdir -p /work/aimran/logs
+
+# Start Docker daemon (rootless)
+echo "Starting Docker daemon..."
+/opt/ohpc/pub/apps/docker/start_rootless_docker.sh --quiet
+sleep 2
+
+# Verify Docker is running
+docker ps > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Docker daemon failed to start"
+    exit 1
+fi
+
+echo "Docker daemon started successfully"
+echo ""
+
+# Set DOCKER_HOST for rootless Docker
+export DOCKER_HOST=unix:///scratch/tmp/xdg_runtime_dir_$UID/docker.sock
+
+# Run WQ in Docker container
+echo "Running WaveQlab3D in Docker container..."
+echo "Input file: test-1upx_100m.in"
+echo ""
+
+docker run --rm \
+    -v /work/aimran:/work \
+    -v /scratch/aimran:/scratch \
+    -w /scratch/aimran/WQ/simulation/Test \
+    wq-app:punakha-cpu-v1 bash -c '
+        source /opt/intel/oneapi/setvars.sh intel64
+
+        echo "Inside container:"
+        echo "  PWD: $(pwd)"
+        echo "  Compiler: $(ifort --version | head -1)"
+        echo "  MPI: $(mpiifort --version | head -1)"
+        echo "  CMake: $(cmake --version | head -1)"
+        echo ""
+
+        # Create output directory
+        mkdir -p ./output
+
+        # Run WaveQlab3D
+        echo "Starting WaveQlab3D simulation..."
+        mpirun -np 40 /app/build/waveqlab3d ./input/test-1upx_100m.in | tee ./output/test-1upx_100m.out
+
+        echo ""
+        echo "Simulation completed!"
+        ls -lh ./output/
+    '
+
+DOCKER_EXIT=$?
+
+# Stop Docker daemon
+echo ""
+echo "Stopping Docker daemon..."
+/opt/ohpc/pub/apps/docker/stop_rootless_docker.sh --quiet 2>/dev/null || true
+
+echo ""
+if [ $DOCKER_EXIT -eq 0 ]; then
+    echo "========================================"
+    echo "✓ Job completed successfully!"
+    echo "========================================"
+    echo ""
+    echo "Output files:"
+    ls -lh ./output/
+else
+    echo "========================================"
+    echo "✗ Job failed!"
+    echo "========================================"
+    exit 1
+fi

@@ -1,0 +1,8 @@
+!---begin:station_list---
+ 12d0 0d0  09d0
+ 09d0 0d0  12d0
+-03d0 0d0 -03d0
+-02d0 0d0 -02d0
+ 12d0 0d0  12d0
+ 13d0 0d0  13d0
+!---end:station_list---

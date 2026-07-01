@@ -1,0 +1,69 @@
+! waveqlab3d input file: test problem for mms on cartesian grid with friction
+
+&problem_list
+ name = 'withers_test-1upx_upwind_6_res-100m_elastic_pml-2km',
+ problem = 'TPV5',
+ nblocks = 2,
+ t_final =  06.0d0,
+ CFL = 0.34640762d0,
+ coupling='locked',
+ type_of_mesh='cartesian',
+ material_source='hardcode',
+ fd_type = 'upwind',
+ order = 6,
+ response = 'elastic',
+ w_stride = 1,
+ w_fault = F /
+
+&block_list
+btp(1)%nqrs =  101,  101,  201,
+btp(1)%aqrs = -5d0,  0d0, -5d0,
+btp(1)%bqrs = 5d0, 10d0, 15d0,
+btp(1)%rho_s_p = 2.7d0, 3.464d0, 6d0,
+btp(1)%lqrs = 1, 2, 1,
+btp(1)%rqrs = 0, 1, 1,
+btp(1)%pml_lqrs = T, F, T,
+btp(1)%pml_rqrs = F, T, T,
+btp(1)%npml = 20 , 
+
+btp(2)%nqrs = 101, 101, 201,
+btp(2)%aqrs = 05d0, 0d0, -5d0,
+btp(2)%bqrs = 15d0, 10d0, 15d0,
+btp(2)%rho_s_p = 2.7d0, 3.464d0, 6d0,
+btp(2)%lqrs = 0, 2, 1,
+btp(2)%rqrs = 1, 1, 1,
+btp(2)%pml_lqrs = F, F, T,
+btp(2)%pml_rqrs = T, T, T,
+btp(2)%npml = 20 / 
+
+&moment_list
+ use_moment_tensor = T,
+ order = 4 /
+
+!---begin:tensor_listU---
+'Cos-Bell' 0d0 0.2d0 0d0 0d0 0d0 0d0 -10d0 0d0 0d0 1.8d0 0d0 0 
+!---end:tensor_listU---
+
+!---begin:tensor_listV---
+!---end:tensor_listV---
+
+&mms_list
+ use_mms = F /
+
+&output_list
+ output_exact_moment = F,
+ output_seismograms = T,
+ output_fault_topo = F,
+ output_fields_block1 = F,
+ output_fields_block2 = F,
+ stride_fields = 1,
+ station_xyz_index = T,
+ station_list = 'exfile',
+ station_list_file = 'station_list_0y.txt',
+ station_file_directory = 'dat_1upx_100m',
+ output_station_info = F
+ /
+
+
+
+

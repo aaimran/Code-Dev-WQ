@@ -1,0 +1,8 @@
+!---begin:station_list---
+0d0 37d0 34d0
+0d0 34d0 37d0
+0d0 22d0 22d0
+0d0 23d0 23d0
+0d0 37d0 37d0
+0d0 38d0 38d0
+!---end:station_list---

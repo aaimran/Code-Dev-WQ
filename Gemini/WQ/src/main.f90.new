@@ -1,0 +1,31 @@
+PROGRAM waveqlab3d_main
+  USE config_mod, ONLY: config_read, config_validate, cfg
+  USE attenuation_mod, ONLY: attenuation_init
+  IMPLICIT NONE
+
+  ! This is a simplified main program to show the new workflow.
+
+  ! 1. Read all parameters into the global config object.
+  CALL config_read()
+
+  ! 2. Validate the configuration. This will stop if parameters are inconsistent.
+  CALL config_validate()
+
+  ! 3. Initialize modules based on the validated configuration.
+  CALL attenuation_init()
+  ! CALL other_module_init()...
+
+  PRINT *, "Setup complete. Starting time loop."
+
+  ! 4. Main time loop (conceptual).
+  ! DO itime = 1, nsteps
+  !   CALL mpi_halo_exchange()
+  !   CALL compute_rhs()
+  !   ! The call to the correct attenuation model would be handled by a
+  !   ! procedure pointer set during initialization.
+  !   ! CALL attenuation_model%update()
+  ! END DO
+
+  PRINT *, "Simulation finished."
+
+END PROGRAM waveqlab3d_main

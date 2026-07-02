@@ -1,0 +1,37 @@
+# The fortran modules provided by this target.
+provides
+ block.mod
+ boundary.mod
+ boundaryconditions.mod
+ common.mod
+ couplingforcing.mod
+ datatypes.mod
+ domain.mod
+ elastic.mod
+ fault_output.mod
+ fields.mod
+ grid.mod
+ iface.mod
+ initial_stress_condition.mod
+ inter_material.mod
+ interface_condition.mod
+ ju_xju_yju_z6.mod
+ material.mod
+ metrics.mod
+ mms.mod
+ moment_tensor.mod
+ mpi3d_interface.mod
+ mpi3dbasic.mod
+ mpi3dcomm.mod
+ mpi3dio.mod
+ parallel_write.mod
+ plane_output.mod
+ plastic.mod
+ plastic_material.mod
+ pml.mod
+ rhs_interior.mod
+ seismogram.mod
+ slice_output.mod
+ time_step.mod
+ unit_normals.mod
+ withers_tables.mod

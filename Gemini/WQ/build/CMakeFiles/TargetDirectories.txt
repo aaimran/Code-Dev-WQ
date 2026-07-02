@@ -1,0 +1,5 @@
+/scratch/aimran/Code-Dev-WQ/Gemini/WQ/build/CMakeFiles/waveqlab3d.dir
+/scratch/aimran/Code-Dev-WQ/Gemini/WQ/build/CMakeFiles/pre_wql3d.dir
+/scratch/aimran/Code-Dev-WQ/Gemini/WQ/build/CMakeFiles/test.dir
+/scratch/aimran/Code-Dev-WQ/Gemini/WQ/build/CMakeFiles/edit_cache.dir
+/scratch/aimran/Code-Dev-WQ/Gemini/WQ/build/CMakeFiles/rebuild_cache.dir

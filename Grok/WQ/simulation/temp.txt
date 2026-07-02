@@ -1,0 +1,1 @@
+git log master..origin/Q_work_new --reverse --format="%an (%ae) at %ad" | head -n 1
